@@ -32,7 +32,9 @@ module.exports = () => ({
   findOne: async (req, res) => {
     try {
       const { id } = req.params;
+
       const customer = await FindOneCustomerBusiness().execute(id);
+
       res.status(200).json(customer);
     } catch (error) {
       res.status(error.status || 500).json({
@@ -44,7 +46,10 @@ module.exports = () => ({
   update: async (req, res) => {
     try {
       const { id } = req.params;
-      const editedCustomer = await UpdateCustomerBusiness().execute(id, req.body);
+      const editedCustomer = await UpdateCustomerBusiness().execute(
+        id,
+        req.body
+      );
       res.status(200).json(editedCustomer);
     } catch (error) {
       res.status(error.status || 500).json({
