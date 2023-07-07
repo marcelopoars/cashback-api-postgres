@@ -1,7 +1,10 @@
-const databaseUrl = {
-  localhost: process.env.POSTGRES_LOCAL_URL,
-  neon: process.env.POSTGRES_NEON_URL,
-  elephant: process.env.POSTGRES_ELEPHANT_URL,
-};
+const { Pool } = require("pg");
 
-module.exports = { databaseUrl };
+const postgresUrl =
+  process.env.NODE_ENV === "development"
+    ? process.env.POSTGRES_LOCAL_URL
+    : process.env.POSTGRES_PRODUCTION_URL;
+
+const pool = new Pool({ connectionString: postgresUrl });
+
+module.exports = { pool };

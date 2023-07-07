@@ -11,10 +11,6 @@
       "description": "Heroku Host"
     },
     {
-      "url": "https://cashback-api-postgres.onrender.com",
-      "description": "Render Host"
-    },
-    {
       "url": "httpslocalhost:3000",
       "description": "Localhost"
     }
