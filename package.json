@@ -2,13 +2,10 @@
   "name": "cashback-api-postgres",
   "version": "2.1.0",
   "description": "Projeto desenvolvido na disciplina de Desenvolvimento de Serviços e APIs do curso de Análise e Desenvolvimento de Sistemas - Faculdade UniSenac - SENAC-RS.",
-  "main": "index.js",
-  "engines": {
-    "node": "18"
-  },
+  "main": "app.js",
   "scripts": {
-    "start": "node src/index.js",
-    "dev": "cross-env NODE_ENV=development nodemon src/index.js",
+    "start": "node src/app.js",
+    "dev": "cross-env NODE_ENV=development nodemon src/app.js",
     "test": "jest",
     "coverage": "jest --coverage"
   },
