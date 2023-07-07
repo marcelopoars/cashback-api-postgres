@@ -4,6 +4,7 @@
   "description": "Projeto desenvolvido na disciplina de Desenvolvimento de Serviços e APIs do curso de Análise e Desenvolvimento de Sistemas - Faculdade UniSenac - SENAC-RS.",
   "main": "app.js",
   "scripts": {
+    "build": "npm install",
     "start": "node src/app.js",
     "dev": "nodemon src/app.js",
     "test": "jest",
