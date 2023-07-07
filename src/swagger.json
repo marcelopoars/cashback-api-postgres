@@ -1,0 +1,327 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Cashback API",
+    "description": "Esta API tem como funcionalidades principais o `cadastro de clientes (Customers)` e o `registro de vendas (Orders)`. A cada veda é gerado um valor de `CASHBACK` para o cliente, que na sua próxima compra, receberá este valor como `desconto`. No momento o percentual de CASHBACK por venda está fixado em `15%`.",
+    "version": "2.0.0"
+  },
+  "servers": [
+    {
+      "url": "https://cashback-api-postgres-develop-736873bebd96.herokuapp.com/",
+      "description": "Development"
+    },
+    {
+      "url": "https://cashback-api-postgres-prod-89c60020eabb.herokuapp.com/",
+      "description": "Production"
+    }
+  ],
+  "paths": {
+    "/customers": {
+      "post": {
+        "tags": ["customer"],
+        "summary": "Create customer",
+        "description": "Create customer",
+        "operationId": "createCustomer",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "description": "Customer name",
+                    "type": "string",
+                    "example": "Joao silva"
+                  },
+                  "cpf": {
+                    "description": "Customer cpf",
+                    "type": "string",
+                    "example": "999.999.999-99"
+                  },
+                  "city": {
+                    "description": "Customer city",
+                    "type": "string",
+                    "example": "Porto Alegre"
+                  },
+                  "phone": {
+                    "description": "Customer phone",
+                    "type": "string",
+                    "example": "(99)99999-9999"
+                  }
+                },
+                "required": ["name", "cpf", "city", "phone"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "_id": {
+                      "description": "Customer Id",
+                      "type": "string",
+                      "example": "3501159d-4db1-449b-9778-ffe133098dcc"
+                    },
+                    "name": {
+                      "description": "Customer name",
+                      "type": "string",
+                      "example": "JOAO SILVA"
+                    },
+                    "cpf": {
+                      "description": "Customer cpf",
+                      "type": "string",
+                      "example": "999.999.999-99"
+                    },
+                    "city": {
+                      "description": "Customer city",
+                      "type": "string",
+                      "example": "Porto Alegre"
+                    },
+                    "phone": {
+                      "description": "Customer phone",
+                      "type": "string",
+                      "example": "(99)99999-9999"
+                    },
+                    "cashback": {
+                      "description": "Cashback by order",
+                      "type": "number",
+                      "example": 15
+                    },
+                    "created_at": {
+                      "description": "Customer creation date",
+                      "type": "string",
+                      "example": "2023-06-13T16:20:27.133Z"
+                    },
+                    "updated_at": {
+                      "description": "Client update date",
+                      "type": "string",
+                      "example": "2023-06-13T16:20:27.133Z"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "All fields are required"
+          },
+          "422": {
+            "description": "CPF needs to be in this format: 999.999.999-99"
+          }
+        }
+      },
+      "get": {
+        "tags": ["customer"],
+        "summary": "Find all customers",
+        "description": "Find all customers",
+        "operationId": "findAllCustomers",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "properties": {
+                      "name": {
+                        "description": "Customer name",
+                        "type": "string",
+                        "example": "JOAO SILVA"
+                      },
+                      "cpf": {
+                        "description": "Customer cpf",
+                        "type": "string",
+                        "example": "999.999.999-99"
+                      },
+                      "city": {
+                        "description": "Customer city",
+                        "type": "string",
+                        "example": "Porto Alegre"
+                      },
+                      "phone": {
+                        "description": "Customer phone",
+                        "type": "string",
+                        "example": "(99)99999-9999"
+                      },
+                      "created_at": {
+                        "description": "Customer creation date",
+                        "type": "string",
+                        "example": "2023-06-13T16:20:27.133Z"
+                      },
+                      "updated_at": {
+                        "description": "Client update date",
+                        "type": "string",
+                        "example": "2023-06-13T16:20:27.133Z"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/orders": {
+      "post": {
+        "tags": ["order"],
+        "summary": "Create order",
+        "description": "Create order",
+        "operationId": "createOrder",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "customer_id": {
+                    "description": "Customer Id",
+                    "type": "string",
+                    "example": "79732fd9-ff71-44d8-b3e8-ffda377b451b"
+                  },
+                  "total": {
+                    "description": "Order amount",
+                    "type": "number",
+                    "example": 100
+                  }
+                },
+                "required": ["customer_id", "total"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "_id": {
+                      "description": "Customer Id",
+                      "type": "string",
+                      "example": "3501159d-4db1-449b-9778-ffe133098dcc"
+                    },
+                    "customer_id": {
+                      "description": "Customer Id",
+                      "type": "string",
+                      "example": "79732fd9-ff71-44d8-b3e8-ffda377b451b"
+                    },
+                    "total": {
+                      "description": "Order total",
+                      "type": "number",
+                      "example": 100
+                    },
+                    "total_with_discount": {
+                      "description": "Order total with dicount",
+                      "type": "number",
+                      "example": 85
+                    },
+                    "cashback": {
+                      "description": "Cashback",
+                      "type": "number",
+                      "example": 15
+                    },
+                    "created_at": {
+                      "description": "Customer creation date",
+                      "type": "string",
+                      "example": "2023-06-13T16:20:27.133Z"
+                    },
+                    "updated_at": {
+                      "description": "Client update date",
+                      "type": "string",
+                      "example": "2023-06-13T16:20:27.133Z"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "All fields are required"
+          },
+          "404": {
+            "description": "Customer not found"
+          },
+          "422": {
+            "description": "CPF needs to be in this format: 999.999.999-99"
+          }
+        }
+      },
+      "get": {
+        "tags": ["order"],
+        "summary": "Find all orders",
+        "description": "Find all orders",
+        "operationId": "findAllOneOrders",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "properties": {
+                      "_id": {
+                        "description": "Order Id",
+                        "type": "string",
+                        "example": "3501159d-4db1-449b-9778-ffe133098dcc"
+                      },
+                      "customer_id": {
+                        "description": "Customer Id",
+                        "type": "string",
+                        "example": "79732fd9-ff71-44d8-b3e8-ffda377b451b"
+                      },
+                      "total": {
+                        "description": "Order total",
+                        "type": "number",
+                        "example": 100
+                      },
+                      "total_with_discount": {
+                        "description": "Total with discount",
+                        "type": "number",
+                        "example": 85
+                      },
+                      "cashback": {
+                        "description": "Cashback",
+                        "type": "number",
+                        "example": 15
+                      },
+                      "customer_name": {
+                        "description": "Customer name",
+                        "type": "string",
+                        "example": "JOAO SILVA"
+                      },
+                      "city": {
+                        "description": "Customer city",
+                        "type": "string",
+                        "example": "PORTO ALEGRE"
+                      },
+                      "created_at": {
+                        "description": "Customer creation date",
+                        "type": "string",
+                        "example": "2023-06-13T16:20:27.133Z"
+                      },
+                      "updated_at": {
+                        "description": "Client update date",
+                        "type": "string",
+                        "example": "2023-06-13T16:20:27.133Z"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
