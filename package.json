@@ -3,6 +3,9 @@
   "version": "2.1.0",
   "description": "Projeto desenvolvido na disciplina de Desenvolvimento de Serviços e APIs do curso de Análise e Desenvolvimento de Sistemas - Faculdade UniSenac - SENAC-RS.",
   "main": "app.js",
+  "engines": {
+    "node": ">=18"
+  },
   "scripts": {
     "build": "npm install",
     "start": "node src/app.js",
