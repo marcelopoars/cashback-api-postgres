@@ -7,12 +7,16 @@
   },
   "servers": [
     {
-      "url": "https://cashback-api-postgres-develop-736873bebd96.herokuapp.com/",
-      "description": "Development"
+      "url": "https://cashback-api-d74ed6d7db25.herokuapp.com",
+      "description": "Heroku Host"
     },
     {
-      "url": "https://cashback-api-postgres-prod-89c60020eabb.herokuapp.com/",
-      "description": "Production"
+      "url": "https://cashback-api-postgres.onrender.com",
+      "description": "Render Host"
+    },
+    {
+      "url": "httpslocalhost:3000",
+      "description": "Localhost"
     }
   ],
   "paths": {

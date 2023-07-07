@@ -2,12 +2,19 @@ const { Pool } = require("pg");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
+const { databaseUrl } = require("../../commons/repositories/databaseUrl");
+
 // const postgresUrl =
 //   process.env.NODE_ENV === "development"
 //     ? process.env.POSTGRES_DEV_URL
 //     : process.env.POSTGRES_PROD_URL;
 
-const pool = new Pool({ connectionString: process.env.POSTGRES_NEON_URL });
+// const pool = new Pool({ connectionString: process.env.POSTGRES_NEON_URL });
+
+const pool = new Pool({
+  connectionString:
+    databaseUrl[process.env.NODE_ENV] || process.env.POSTGRES_PRODUCTION_URL,
+});
 
 class AuthRepository {
   async create(data) {

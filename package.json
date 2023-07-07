@@ -5,7 +5,9 @@
   "main": "app.js",
   "scripts": {
     "start": "node src/app.js",
-    "dev": "nodemon src/app.js",
+    "dev": "cross-env NODE_ENV=localhost nodemon src/app.js",
+    "dev:neon": "cross-env NODE_ENV=neon nodemon src/app.js",
+    "dev:elephant": "cross-env NODE_ENV=elephant nodemon src/app.js",
     "test": "jest",
     "coverage": "jest --coverage"
   },
