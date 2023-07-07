@@ -35,6 +35,7 @@ routes.delete("/orders/:id", validateToken, validateId, orderController.delete);
 routes.post("/users/register", userController.create);
 routes.get("/users", userController.findAll);
 routes.get("/users/:id", validateId, userController.findOne);
+routes.delete("/users/:id", validateId, userController.delete);
 
 // Auth
 routes.post("/login", authController.create);

@@ -2,6 +2,7 @@ const {
   CreateUserBusiness,
   FindAllUserBusiness,
   FindOneUserBusiness,
+  DeleteUserBusiness,
 } = require("../business");
 
 module.exports = () => ({
@@ -44,5 +45,17 @@ module.exports = () => ({
 
   update: (req, res) => {},
 
-  delete: (req, res) => {},
+  delete: async (req, res) => {
+    try {
+      const { id } = req.params;
+
+      const deletedUser = await DeleteUserBusiness().execute(id);
+
+      res.status(200).json(deletedUser);
+    } catch (error) {
+      res.status(error.status || 500).json({
+        message: error.message,
+      });
+    }
+  },
 });
