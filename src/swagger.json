@@ -11,7 +11,7 @@
       "description": "Heroku Host"
     },
     {
-      "url": "httpslocalhost:3000",
+      "url": "http://localhost:3000",
       "description": "Localhost"
     }
   ],
