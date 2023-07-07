@@ -1,4 +1,4 @@
-# CASHBACK API - [Postgre]
+# CASHBACK API - [Postgres]
 
 Projeto desenvolvido na disciplina de `Desenvolvimento de Serviços e APIs` do curso de Análise e Desenvolvimento de Sistemas - Faculdade UniSenac - SENAC-RS.
 
