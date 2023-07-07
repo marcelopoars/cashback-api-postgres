@@ -5,6 +5,19 @@ module.exports = () => ({
   create: async (data) => {
     const { name, cpf, city, phone } = data;
 
+    const cpfAlreadyExistsResult = await pool.query(
+      "SELECT * FROM customers WHERE cpf = ($1)",
+      [cpf]
+    );
+
+    const cpfAlreadyExists = cpfAlreadyExistsResult.rows[0];
+
+    if (cpfAlreadyExists)
+      throw {
+        status: 422,
+        message: "CPF already exists",
+      };
+
     const _id = randomUUID();
 
     const createdCustomerResult = await pool.query(
