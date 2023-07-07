@@ -2,12 +2,12 @@ const { Pool } = require("pg");
 
 const { randomUUID } = require("node:crypto");
 
-const postgresUrl =
-  process.env.NODE_ENV === "development"
-    ? process.env.POSTGRES_DEV_URL
-    : process.env.POSTGRES_PROD_URL;
+// const postgresUrl =
+//   process.env.NODE_ENV === "development"
+//     ? process.env.POSTGRES_DEV_URL
+//     : process.env.POSTGRES_PROD_URL;
 
-const pool = new Pool({ connectionString: postgresUrl });
+const pool = new Pool({ connectionString: process.env.POSTGRES_NEON_URL });
 
 module.exports = () => ({
   create: async (data) => {
@@ -38,7 +38,7 @@ module.exports = () => ({
       orders.cashback,
       orders.created_at,
       orders.updated_at
-      
+
       FROM orders
       INNER JOIN customers
       ON orders.customer_id = customers._id
@@ -52,9 +52,9 @@ module.exports = () => ({
   findOne: async (id) => {
     const findOrderResult = await pool.query(
       `
-      SELECT 
-      orders._id as order_id, 
-      orders.customer_id, 
+      SELECT
+      orders._id as order_id,
+      orders.customer_id,
       customers.name as customer_name,
       orders.total_with_discount,
       orders.cashback,

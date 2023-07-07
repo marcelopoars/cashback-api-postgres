@@ -2,12 +2,12 @@ const { Pool } = require("pg");
 const bcrypt = require("bcrypt");
 const { randomUUID } = require("node:crypto");
 
-const postgresUrl =
-  process.env.NODE_ENV === "development"
-    ? process.env.POSTGRES_DEV_URL
-    : process.env.POSTGRES_PROD_URL;
+// const postgresUrl =
+//   process.env.NODE_ENV === "development"
+//     ? process.env.POSTGRES_DEV_URL
+//     : process.env.POSTGRES_PROD_URL;
 
-const pool = new Pool({ connectionString: postgresUrl });
+const pool = new Pool({ connectionString: process.env.POSTGRES_NEON_URL });
 
 module.exports = () => ({
   create: async (data) => {
