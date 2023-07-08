@@ -3,7 +3,7 @@
   "info": {
     "title": "Cashback API",
     "description": "Esta API tem como funcionalidades principais o `cadastro de clientes (Customers)` e o `registro de vendas (Orders)`. A cada veda é gerado um valor de `CASHBACK` para o cliente, que na sua próxima compra, receberá este valor como `desconto`. No momento o percentual de CASHBACK por venda está fixado em `15%`.",
-    "version": "2.0.0"
+    "version": "2.2.1"
   },
   "servers": [
     {
@@ -22,10 +22,17 @@
   "paths": {
     "/customers": {
       "post": {
-        "tags": ["customer"],
+        "tags": [
+          "customer"
+        ],
         "summary": "Create customer",
         "description": "Create customer",
         "operationId": "createCustomer",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
         "requestBody": {
           "content": {
             "application/json": {
@@ -53,7 +60,12 @@
                     "example": "(99)99999-9999"
                   }
                 },
-                "required": ["name", "cpf", "city", "phone"]
+                "required": [
+                  "name",
+                  "cpf",
+                  "city",
+                  "phone"
+                ]
               }
             }
           }
@@ -115,18 +127,21 @@
             "description": "All fields are required"
           },
           "422": {
-            "description": "CPF needs to be in this format: 999.999.999-99"
+            "description": "CPF needs to be in this format: 999.999.999-99",
+            "description2": "CPF needs to be in this format: 999.999.999-99"
           }
         }
       },
       "get": {
-        "tags": ["customer"],
+        "tags": [
+          "customer"
+        ],
         "summary": "Find all customers",
         "description": "Find all customers",
         "operationId": "findAllCustomers",
         "responses": {
           "200": {
-            "description": "Success",
+            "description": "Ok",
             "content": {
               "application/json": {
                 "schema": {
@@ -172,12 +187,98 @@
         }
       }
     },
+    "/customers/{id}": {
+      "get": {
+        "tags": [
+          "customer"
+        ],
+        "summary": "Find customer by id",
+        "description": "Find customer by id",
+        "operationId": "findCustomerById",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Customer id",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "name": {
+                      "description": "Customer name",
+                      "type": "string",
+                      "example": "JOAO SILVA"
+                    },
+                    "cpf": {
+                      "description": "Customer cpf",
+                      "type": "string",
+                      "example": "999.999.999-99"
+                    },
+                    "city": {
+                      "description": "Customer city",
+                      "type": "string",
+                      "example": "Porto Alegre"
+                    },
+                    "phone": {
+                      "description": "Customer phone",
+                      "type": "string",
+                      "example": "(99)99999-9999"
+                    },
+                    "created_at": {
+                      "description": "Customer creation date",
+                      "type": "string",
+                      "example": "2023-06-13T16:20:27.133Z"
+                    },
+                    "updated_at": {
+                      "description": "Client update date",
+                      "type": "string",
+                      "example": "2023-06-13T16:20:27.133Z"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Error: Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "description": "Message",
+                      "type": "string",
+                      "example": "Customer not found"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/orders": {
       "post": {
-        "tags": ["order"],
+        "tags": [
+          "order"
+        ],
         "summary": "Create order",
         "description": "Create order",
         "operationId": "createOrder",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
         "requestBody": {
           "content": {
             "application/json": {
@@ -195,7 +296,10 @@
                     "example": 100
                   }
                 },
-                "required": ["customer_id", "total"]
+                "required": [
+                  "customer_id",
+                  "total"
+                ]
               }
             }
           }
@@ -260,7 +364,9 @@
         }
       },
       "get": {
-        "tags": ["order"],
+        "tags": [
+          "order"
+        ],
         "summary": "Find all orders",
         "description": "Find all orders",
         "operationId": "findAllOneOrders",
@@ -325,6 +431,110 @@
             }
           }
         }
+      }
+    },
+    "/orders/{id}": {
+      "get": {
+        "tags": [
+          "order"
+        ],
+        "summary": "Find order by id",
+        "description": "Find order by id",
+        "operationId": "findOrderById",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Order id",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "_id": {
+                      "description": "Order Id",
+                      "type": "string",
+                      "example": "3501159d-4db1-449b-9778-ffe133098dcc"
+                    },
+                    "customer_id": {
+                      "description": "Customer Id",
+                      "type": "string",
+                      "example": "79732fd9-ff71-44d8-b3e8-ffda377b451b"
+                    },
+                    "total": {
+                      "description": "Order total",
+                      "type": "number",
+                      "example": 100
+                    },
+                    "total_with_discount": {
+                      "description": "Total with discount",
+                      "type": "number",
+                      "example": 85
+                    },
+                    "cashback": {
+                      "description": "Cashback",
+                      "type": "number",
+                      "example": 15
+                    },
+                    "customer_name": {
+                      "description": "Customer name",
+                      "type": "string",
+                      "example": "JOAO SILVA"
+                    },
+                    "city": {
+                      "description": "Customer city",
+                      "type": "string",
+                      "example": "PORTO ALEGRE"
+                    },
+                    "created_at": {
+                      "description": "Customer creation date",
+                      "type": "string",
+                      "example": "2023-06-13T16:20:27.133Z"
+                    },
+                    "updated_at": {
+                      "description": "Client update date",
+                      "type": "string",
+                      "example": "2023-06-13T16:20:27.133Z"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Error: Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "description": "Message",
+                      "type": "string",
+                      "example": "Order not found"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "name": "x-auth-token",
+        "scheme": "bearer",
+        "in": "header"
       }
     }
   }
