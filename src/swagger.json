@@ -3,7 +3,7 @@
   "info": {
     "title": "Cashback API",
     "description": "Esta API tem como funcionalidades principais o `cadastro de clientes (Customers)` e o `registro de vendas (Orders)`. A cada veda é gerado um valor de `CASHBACK` para o cliente, que na sua próxima compra, receberá este valor como `desconto`. No momento o percentual de CASHBACK por venda está fixado em `15%`.",
-    "version": "2.2.1"
+    "version": "2.3.0"
   },
   "servers": [
     {
