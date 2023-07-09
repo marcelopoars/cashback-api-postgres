@@ -3,7 +3,7 @@
   "info": {
     "title": "Cashback API",
     "description": "Esta API tem como funcionalidades principais o `cadastro de clientes (Customers)` e o `registro de vendas (Orders)`. A cada veda é gerado um valor de `CASHBACK` para o cliente, que na sua próxima compra, receberá este valor como `desconto`. No momento o percentual de CASHBACK por venda está fixado em `15%`.",
-    "version": "2.2.1"
+    "version": "2.3.0"
   },
   "servers": [
     {
@@ -59,13 +59,7 @@
                     "type": "string",
                     "example": "(99)99999-9999"
                   }
-                },
-                "required": [
-                  "name",
-                  "cpf",
-                  "city",
-                  "phone"
-                ]
+                }
               }
             }
           }
@@ -127,8 +121,7 @@
             "description": "All fields are required"
           },
           "422": {
-            "description": "CPF needs to be in this format: 999.999.999-99",
-            "description2": "CPF needs to be in this format: 999.999.999-99"
+            "description": "CPF needs to be in this format: 999.999.999-99"
           }
         }
       },
@@ -274,11 +267,7 @@
         "summary": "Create order",
         "description": "Create order",
         "operationId": "createOrder",
-        "security": [
-          {
-            "bearerAuth": []
-          }
-        ],
+        "security": [{ "bearerAuth": []}],
         "requestBody": {
           "content": {
             "application/json": {
@@ -295,11 +284,7 @@
                     "type": "number",
                     "example": 100
                   }
-                },
-                "required": [
-                  "customer_id",
-                  "total"
-                ]
+                }
               }
             }
           }
@@ -369,7 +354,7 @@
         ],
         "summary": "Find all orders",
         "description": "Find all orders",
-        "operationId": "findAllOneOrders",
+        "operationId": "findAllOrders",
         "responses": {
           "200": {
             "description": "Success",
@@ -518,6 +503,142 @@
                       "description": "Message",
                       "type": "string",
                       "example": "Order not found"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/users/register": {
+      "post": {
+        "tags": ["users"],
+        "summary": "Create user",
+        "description": "Create user",
+        "operationId": "createUser",
+        "security": [{ "bearerAuth": []}],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "description": "User name",
+                    "type": "string",
+                    "example": "Joao silva"
+                  },
+                  "email": {
+                    "description": "User email",
+                    "type": "string",
+                    "example": "joao@gmail.com"
+                  },
+                  "password": {
+                    "description": "User password",
+                    "type": "string",
+                    "example": "1234"
+                  },
+                  "confirm_password": {
+                    "description": "User confirm password",
+                    "type": "string",
+                    "example": "1234"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "_id": {
+                      "description": "User Id",
+                      "type": "string",
+                      "example": "3501159d-4db1-449b-9778-ffe133098dcc"
+                    },
+                    "name": {
+                      "description": "User name",
+                      "type": "string",
+                      "example": "JOAO SILVA"
+                    },
+                    "email": {
+                      "description": "User cpf",
+                      "type": "string",
+                      "example": "joao@gmail.com"
+                    },
+                    "password": {
+                      "description": "User city",
+                      "type": "string",
+                      "example": "$2b$04$rrM93k1KroaiwV654gh52uMRP2kTZxHDgRR3GYndS6RFrqjlLStsa"
+                    },
+                    "created_at": {
+                      "description": "User creation date",
+                      "type": "string",
+                      "example": "2023-06-13T16:20:27.133Z"
+                    },
+                    "updated_at": {
+                      "description": "Client update date",
+                      "type": "string",
+                      "example": "2023-06-13T16:20:27.133Z"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "All fields are required | Email already exists | Passwords do not match"
+          }
+        }
+      }
+    },
+    "/users": {
+      "get": {
+        "tags": ["users"],
+        "summary": "Find all users",
+        "description": "Find all users",
+        "operationId": "findAllUsers",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "properties": {
+                      "_id": {
+                        "description": "User Id",
+                        "type": "string",
+                        "example": "3501159d-4db1-449b-9778-ffe133098dcc"
+                      },
+                      "name": {
+                        "description": "User name",
+                        "type": "string",
+                        "example": "JOAO SILVA"
+                      },
+                      "email": {
+                        "description": "User cpf",
+                        "type": "string",
+                        "example": "joao@gmail.com"
+                      },
+                      "created_at": {
+                        "description": "User creation date",
+                        "type": "string",
+                        "example": "2023-06-13T16:20:27.133Z"
+                      },
+                      "updated_at": {
+                        "description": "Client update date",
+                        "type": "string",
+                        "example": "2023-06-13T16:20:27.133Z"
+                      }
                     }
                   }
                 }

@@ -32,7 +32,7 @@ routes.put("/orders/:id", validateToken, orderController.update);
 routes.delete("/orders/:id", validateToken, validateId, orderController.delete);
 
 // User
-routes.post("/users/register", userController.create);
+routes.post("/users/register", validateToken, userController.create);
 routes.get("/users", userController.findAll);
 routes.get("/users/:id", validateId, userController.findOne);
 routes.delete("/users/:id", validateId, userController.delete);
