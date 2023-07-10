@@ -2,8 +2,12 @@
   "openapi": "3.0.0",
   "info": {
     "title": "Cashback API",
-    "description": "Esta API tem como funcionalidades principais o `cadastro de clientes (Customers)` e o `registro de vendas (Orders)`. A cada veda é gerado um valor de `CASHBACK` para o cliente, que na sua próxima compra, receberá este valor como `desconto`. No momento o percentual de CASHBACK por venda está fixado em `15%`.",
-    "version": "2.0.0"
+    "description": "Esta API tem como funcionalidades `principais o cadastro de usuários (Users)`, `cadastro de clientes (Customers)` e o `registro de vendas (Orders)`.\n\nA cada veda é gerado um valor de `CASHBACK` para o cliente, que na sua próxima compra, receberá este valor como `desconto`. No momento o percentual de CASHBACK por venda está fixado em `15%`.\n\nAs rotas `get` são `públicas` e as rotas `post` e `update` são `privadas` (requer autenticação do usuário.)",
+    "version": "2.3.2"
+  },
+  "externalDocs": {
+    "description": "Repositório Github",
+    "url": "https://github.com/marcelopoars/cashback-api-postgres"
   },
   "servers": [
     {
@@ -22,10 +26,17 @@
   "paths": {
     "/customers": {
       "post": {
-        "tags": ["customer"],
+        "tags": [
+          "customers"
+        ],
         "summary": "Create customer",
         "description": "Create customer",
         "operationId": "createCustomer",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
         "requestBody": {
           "content": {
             "application/json": {
@@ -52,8 +63,7 @@
                     "type": "string",
                     "example": "(99)99999-9999"
                   }
-                },
-                "required": ["name", "cpf", "city", "phone"]
+                }
               }
             }
           }
@@ -111,22 +121,24 @@
               }
             }
           },
-          "400": {
-            "description": "All fields are required"
+          "401": {
+            "description": "Unauthorized access"
           },
           "422": {
-            "description": "CPF needs to be in this format: 999.999.999-99"
+            "description": "All fields are required | Name must be more than 5 characters | Field name with invalid type | CPF needs to be in this format: 999.999.999-99"
           }
         }
       },
       "get": {
-        "tags": ["customer"],
+        "tags": [
+          "customers"
+        ],
         "summary": "Find all customers",
         "description": "Find all customers",
         "operationId": "findAllCustomers",
         "responses": {
           "200": {
-            "description": "Success",
+            "description": "Ok",
             "content": {
               "application/json": {
                 "schema": {
@@ -172,12 +184,183 @@
         }
       }
     },
+    "/customers/{id}": {
+      "get": {
+        "tags": [
+          "customers"
+        ],
+        "summary": "Find customer by id",
+        "description": "Find customer by id",
+        "operationId": "findCustomerById",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Customer id",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "name": {
+                      "description": "Customer name",
+                      "type": "string",
+                      "example": "JOAO SILVA"
+                    },
+                    "cpf": {
+                      "description": "Customer cpf",
+                      "type": "string",
+                      "example": "999.999.999-99"
+                    },
+                    "city": {
+                      "description": "Customer city",
+                      "type": "string",
+                      "example": "Porto Alegre"
+                    },
+                    "phone": {
+                      "description": "Customer phone",
+                      "type": "string",
+                      "example": "(99)99999-9999"
+                    },
+                    "created_at": {
+                      "description": "Customer creation date",
+                      "type": "string",
+                      "example": "2023-06-13T16:20:27.133Z"
+                    },
+                    "updated_at": {
+                      "description": "Client update date",
+                      "type": "string",
+                      "example": "2023-06-13T16:20:27.133Z"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Invalid id"
+          },
+          "404": {
+            "description": "Customer not found"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "customers"
+        ],
+        "summary": "Update customer",
+        "description": "Update customer",
+        "operationId": "updateCustomer",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Customer id",
+            "required": true
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "description": "Customer ",
+                    "type": "string",
+                    "example": "Joao silva edited"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "_id": {
+                      "description": "Customer Id",
+                      "type": "string",
+                      "example": "3501159d-4db1-449b-9778-ffe133098dcc"
+                    },
+                    "name": {
+                      "description": "Customer name",
+                      "type": "string",
+                      "example": "JOAO SILVA EDITED"
+                    },
+                    "cpf": {
+                      "description": "Customer cpf",
+                      "type": "string",
+                      "example": "999.999.999-99"
+                    },
+                    "city": {
+                      "description": "Customer city",
+                      "type": "string",
+                      "example": "Porto Alegre"
+                    },
+                    "phone": {
+                      "description": "Customer phone",
+                      "type": "string",
+                      "example": "(99)99999-9999"
+                    },
+                    "cashback": {
+                      "description": "Cashback by order",
+                      "type": "number",
+                      "example": 15
+                    },
+                    "created_at": {
+                      "description": "Customer creation date",
+                      "type": "string",
+                      "example": "2023-06-13T16:20:27.133Z"
+                    },
+                    "updated_at": {
+                      "description": "Client update date",
+                      "type": "string",
+                      "example": "2023-06-13T16:20:27.133Z"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized access"
+          },
+          "404": {
+            "description": "Customer not found"
+          },
+          "422": {
+            "description": "Invalid id  | All fields are required | Name must be more than 5 characters | Field name with invalid type | CPF needs to be in this format: 999.999.999-99"
+          }
+        }
+      }
+    },
     "/orders": {
       "post": {
-        "tags": ["order"],
+        "tags": [
+          "orders"
+        ],
         "summary": "Create order",
         "description": "Create order",
         "operationId": "createOrder",
+        "security": [{ "bearerAuth": []}],
         "requestBody": {
           "content": {
             "application/json": {
@@ -194,8 +377,7 @@
                     "type": "number",
                     "example": 100
                   }
-                },
-                "required": ["customer_id", "total"]
+                }
               }
             }
           }
@@ -248,22 +430,24 @@
               }
             }
           },
-          "400": {
-            "description": "All fields are required"
+          "401": {
+            "description": "Unauthorized access"
           },
           "404": {
             "description": "Customer not found"
           },
           "422": {
-            "description": "CPF needs to be in this format: 999.999.999-99"
+            "description": "All fields are required | Field total with invalid type | Total must be greater than zero"
           }
         }
       },
       "get": {
-        "tags": ["order"],
+        "tags": [
+          "orders"
+        ],
         "summary": "Find all orders",
         "description": "Find all orders",
-        "operationId": "findAllOneOrders",
+        "operationId": "findAllOrders",
         "responses": {
           "200": {
             "description": "Success",
@@ -325,6 +509,238 @@
             }
           }
         }
+      }
+    },
+    "/orders/{id}": {
+      "get": {
+        "tags": [
+          "orders"
+        ],
+        "summary": "Find order by id",
+        "description": "Find order by id",
+        "operationId": "findOrderById",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Order id",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "_id": {
+                      "description": "Order Id",
+                      "type": "string",
+                      "example": "3501159d-4db1-449b-9778-ffe133098dcc"
+                    },
+                    "customer_id": {
+                      "description": "Customer Id",
+                      "type": "string",
+                      "example": "79732fd9-ff71-44d8-b3e8-ffda377b451b"
+                    },
+                    "total": {
+                      "description": "Order total",
+                      "type": "number",
+                      "example": 100
+                    },
+                    "total_with_discount": {
+                      "description": "Total with discount",
+                      "type": "number",
+                      "example": 85
+                    },
+                    "cashback": {
+                      "description": "Cashback",
+                      "type": "number",
+                      "example": 15
+                    },
+                    "customer_name": {
+                      "description": "Customer name",
+                      "type": "string",
+                      "example": "JOAO SILVA"
+                    },
+                    "city": {
+                      "description": "Customer city",
+                      "type": "string",
+                      "example": "PORTO ALEGRE"
+                    },
+                    "created_at": {
+                      "description": "Customer creation date",
+                      "type": "string",
+                      "example": "2023-06-13T16:20:27.133Z"
+                    },
+                    "updated_at": {
+                      "description": "Client update date",
+                      "type": "string",
+                      "example": "2023-06-13T16:20:27.133Z"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Order not found"
+          },
+          "422": {
+            "description": "Invalid id"
+          }
+        }
+      }
+    },
+    "/users/register": {
+      "post": {
+        "tags": ["users"],
+        "summary": "Create user",
+        "description": "Create user",
+        "operationId": "createUser",
+        "security": [{ "bearerAuth": []}],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "description": "User name",
+                    "type": "string",
+                    "example": "Joao silva"
+                  },
+                  "email": {
+                    "description": "User email",
+                    "type": "string",
+                    "example": "joao@gmail.com"
+                  },
+                  "password": {
+                    "description": "User password",
+                    "type": "string",
+                    "example": "1234"
+                  },
+                  "confirm_password": {
+                    "description": "User confirm password",
+                    "type": "string",
+                    "example": "1234"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "_id": {
+                      "description": "User Id",
+                      "type": "string",
+                      "example": "3501159d-4db1-449b-9778-ffe133098dcc"
+                    },
+                    "name": {
+                      "description": "User name",
+                      "type": "string",
+                      "example": "JOAO SILVA"
+                    },
+                    "email": {
+                      "description": "User cpf",
+                      "type": "string",
+                      "example": "joao@gmail.com"
+                    },
+                    "password": {
+                      "description": "User city",
+                      "type": "string",
+                      "example": "$2b$04$rrM93k1KroaiwV654gh52uMRP2kTZxHDgRR3GYndS6RFrqjlLStsa"
+                    },
+                    "created_at": {
+                      "description": "User creation date",
+                      "type": "string",
+                      "example": "2023-06-13T16:20:27.133Z"
+                    },
+                    "updated_at": {
+                      "description": "Client update date",
+                      "type": "string",
+                      "example": "2023-06-13T16:20:27.133Z"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized access"
+          },
+          "422": {
+            "description": "All fields are required | Email already exists | Passwords do not match"
+          }
+        }
+      }
+    },
+    "/users": {
+      "get": {
+        "tags": ["users"],
+        "summary": "Find all users",
+        "description": "Find all users",
+        "operationId": "findAllUsers",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "properties": {
+                      "_id": {
+                        "description": "User Id",
+                        "type": "string",
+                        "example": "3501159d-4db1-449b-9778-ffe133098dcc"
+                      },
+                      "name": {
+                        "description": "User name",
+                        "type": "string",
+                        "example": "JOAO SILVA"
+                      },
+                      "email": {
+                        "description": "User cpf",
+                        "type": "string",
+                        "example": "joao@gmail.com"
+                      },
+                      "created_at": {
+                        "description": "User creation date",
+                        "type": "string",
+                        "example": "2023-06-13T16:20:27.133Z"
+                      },
+                      "updated_at": {
+                        "description": "Client update date",
+                        "type": "string",
+                        "example": "2023-06-13T16:20:27.133Z"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "name": "x-auth-token",
+        "scheme": "bearer",
+        "in": "header"
       }
     }
   }

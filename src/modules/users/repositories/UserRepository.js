@@ -56,5 +56,14 @@ module.exports = () => ({
 
   update: () => {},
 
-  delete: () => {},
+  delete: async (id) => {
+    await pool.query(
+      `
+      UPDATE users
+      SET deleted_at = ($1)
+      WHERE _id = ($2)
+    `,
+      [new Date(), id]
+    );
+  },
 });
