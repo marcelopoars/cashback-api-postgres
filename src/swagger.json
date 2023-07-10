@@ -5,6 +5,10 @@
     "description": "Esta API tem como funcionalidades principais o `cadastro de clientes (Customers)` e o `registro de vendas (Orders)`. A cada veda é gerado um valor de `CASHBACK` para o cliente, que na sua próxima compra, receberá este valor como `desconto`. No momento o percentual de CASHBACK por venda está fixado em `15%`.",
     "version": "2.3.0"
   },
+  "externalDocs": {
+    "description": "Repositório Github",
+    "url": "https://github.com/marcelopoars/cashback-api-postgres"
+  },
   "servers": [
     {
       "url": "https://cashback-api-postgres-dev-ee44243735bc.herokuapp.com",
@@ -23,7 +27,7 @@
     "/customers": {
       "post": {
         "tags": [
-          "customer"
+          "customers"
         ],
         "summary": "Create customer",
         "description": "Create customer",
@@ -117,17 +121,17 @@
               }
             }
           },
-          "400": {
-            "description": "All fields are required"
+          "401": {
+            "description": "Unauthorized access"
           },
           "422": {
-            "description": "CPF needs to be in this format: 999.999.999-99"
+            "description": "All fields are required | Name must be more than 5 characters | Field name with invalid type | CPF needs to be in this format: 999.999.999-99"
           }
         }
       },
       "get": {
         "tags": [
-          "customer"
+          "customers"
         ],
         "summary": "Find all customers",
         "description": "Find all customers",
@@ -183,7 +187,7 @@
     "/customers/{id}": {
       "get": {
         "tags": [
-          "customer"
+          "customers"
         ],
         "summary": "Find customer by id",
         "description": "Find customer by id",
@@ -240,21 +244,110 @@
             }
           },
           "404": {
-            "description": "Error: Not Found",
+            "description": "Customer not found"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "customers"
+        ],
+        "summary": "Update customer",
+        "description": "Update customer",
+        "operationId": "updateCustomer",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Customer id",
+            "required": true
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "description": "Customer ",
+                    "type": "string",
+                    "example": "Joao silva edited"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Success",
             "content": {
               "application/json": {
                 "schema": {
                   "type": "object",
                   "properties": {
-                    "message": {
-                      "description": "Message",
+                    "_id": {
+                      "description": "Customer Id",
                       "type": "string",
-                      "example": "Customer not found"
+                      "example": "3501159d-4db1-449b-9778-ffe133098dcc"
+                    },
+                    "name": {
+                      "description": "Customer name",
+                      "type": "string",
+                      "example": "JOAO SILVA EDITED"
+                    },
+                    "cpf": {
+                      "description": "Customer cpf",
+                      "type": "string",
+                      "example": "999.999.999-99"
+                    },
+                    "city": {
+                      "description": "Customer city",
+                      "type": "string",
+                      "example": "Porto Alegre"
+                    },
+                    "phone": {
+                      "description": "Customer phone",
+                      "type": "string",
+                      "example": "(99)99999-9999"
+                    },
+                    "cashback": {
+                      "description": "Cashback by order",
+                      "type": "number",
+                      "example": 15
+                    },
+                    "created_at": {
+                      "description": "Customer creation date",
+                      "type": "string",
+                      "example": "2023-06-13T16:20:27.133Z"
+                    },
+                    "updated_at": {
+                      "description": "Client update date",
+                      "type": "string",
+                      "example": "2023-06-13T16:20:27.133Z"
                     }
                   }
                 }
               }
             }
+          },
+          "400": {
+            "description": "All fields are required"
+          },
+          "401": {
+            "description": "Unauthorized access"
+          },
+          "404": {
+            "description": "Customer not found"
+          },
+          "422": {
+            "description": "Name must be more than 5 characters | Field name with invalid type | CPF needs to be in this format: 999.999.999-99"
           }
         }
       }
@@ -262,7 +355,7 @@
     "/orders": {
       "post": {
         "tags": [
-          "order"
+          "orders"
         ],
         "summary": "Create order",
         "description": "Create order",
@@ -337,20 +430,20 @@
               }
             }
           },
-          "400": {
-            "description": "All fields are required"
+          "401": {
+            "description": "Unauthorized access"
           },
           "404": {
             "description": "Customer not found"
           },
           "422": {
-            "description": "CPF needs to be in this format: 999.999.999-99"
+            "description": "All fields are required | Field total with invalid type | Total must be greater than zero"
           }
         }
       },
       "get": {
         "tags": [
-          "order"
+          "orders"
         ],
         "summary": "Find all orders",
         "description": "Find all orders",
@@ -421,7 +514,7 @@
     "/orders/{id}": {
       "get": {
         "tags": [
-          "order"
+          "orders"
         ],
         "summary": "Find order by id",
         "description": "Find order by id",
@@ -493,21 +586,7 @@
             }
           },
           "404": {
-            "description": "Error: Not Found",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "message": {
-                      "description": "Message",
-                      "type": "string",
-                      "example": "Order not found"
-                    }
-                  }
-                }
-              }
-            }
+            "description": "Order not found"
           }
         }
       }
@@ -592,6 +671,9 @@
                 }
               }
             }
+          },
+          "401": {
+            "description": "Unauthorized access"
           },
           "422": {
             "description": "All fields are required | Email already exists | Passwords do not match"
