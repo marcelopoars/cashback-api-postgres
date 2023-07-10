@@ -27,8 +27,8 @@ routes.delete("/customers/:id", validateToken, validateId, customerController.de
 // Order
 routes.post("/orders", validateToken, orderController.create);
 routes.get("/orders", orderController.findAll);
-routes.get("/orders/:id", orderController.findOne);
-routes.put("/orders/:id", validateToken, orderController.update);
+routes.get("/orders/:id", validateId, orderController.findOne);
+routes.put("/orders/:id", validateToken, validateId, orderController.update);
 routes.delete("/orders/:id", validateToken, validateId, orderController.delete);
 
 // User

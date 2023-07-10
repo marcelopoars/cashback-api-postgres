@@ -2,7 +2,7 @@
   "openapi": "3.0.0",
   "info": {
     "title": "Cashback API",
-    "description": "Esta API tem como funcionalidades principais o `cadastro de clientes (Customers)` e o `registro de vendas (Orders)`. A cada veda é gerado um valor de `CASHBACK` para o cliente, que na sua próxima compra, receberá este valor como `desconto`. No momento o percentual de CASHBACK por venda está fixado em `15%`.",
+    "description": "Esta API tem como funcionalidades `principais o cadastro de usuários (Users)`, `cadastro de clientes (Customers)` e o `registro de vendas (Orders)`.\n\nA cada veda é gerado um valor de `CASHBACK` para o cliente, que na sua próxima compra, receberá este valor como `desconto`. No momento o percentual de CASHBACK por venda está fixado em `15%`.\n\nAs rotas `get` são `públicas` e as rotas `post` e `update` são `privadas` (requer autenticação do usuário.)",
     "version": "2.3.0"
   },
   "externalDocs": {
@@ -243,6 +243,9 @@
               }
             }
           },
+          "400": {
+            "description": "Invalid id"
+          },
           "404": {
             "description": "Customer not found"
           }
@@ -338,7 +341,7 @@
             }
           },
           "400": {
-            "description": "All fields are required"
+            "description": "Invalid id"
           },
           "401": {
             "description": "Unauthorized access"
@@ -347,7 +350,7 @@
             "description": "Customer not found"
           },
           "422": {
-            "description": "Name must be more than 5 characters | Field name with invalid type | CPF needs to be in this format: 999.999.999-99"
+            "description": "All fields are required | Name must be more than 5 characters | Field name with invalid type | CPF needs to be in this format: 999.999.999-99"
           }
         }
       }
@@ -584,6 +587,9 @@
                 }
               }
             }
+          },
+          "400": {
+            "description": "Invalid id"
           },
           "404": {
             "description": "Order not found"
