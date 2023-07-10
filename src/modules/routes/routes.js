@@ -20,7 +20,7 @@ const authController = AuthController();
 // Customer
 routes.post("/customers", validateToken, customerController.create);
 routes.get("/customers", customerController.findAll);
-routes.get("/customers/:id", customerController.findOne);
+routes.get("/customers/:id", validateId, customerController.findOne);
 routes.put("/customers/:id", validateToken, validateId, customerController.update);
 routes.delete("/customers/:id", validateToken, validateId, customerController.delete);
 

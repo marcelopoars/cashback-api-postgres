@@ -9,7 +9,7 @@ const validateId = (req, res, next) => {
 
   const isValidId = uuidPattern.test(id);
 
-  if (!isValidId) return res.status(400).json({ message: "Invalid id" });
+  if (!isValidId) return res.status(422).json({ message: "Invalid id" });
 
   next();
 };
