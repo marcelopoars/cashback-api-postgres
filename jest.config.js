@@ -7,6 +7,7 @@ module.exports = {
     '!<rootDir>/src/**/*metaData.js',
     '!<rootDir>/src/**/*swagger.json',
     '!<rootDir>/src/**/*middlewares.js',
+    '!<rootDir>/src/**/*databaseUrl.js',
     "!<rootDir>/src/modules/**/*{Controller,Business,Service,Repository}.js"
   ],
   coverageDirectory: 'coverage',
