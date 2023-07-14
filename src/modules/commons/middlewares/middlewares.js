@@ -19,7 +19,7 @@ const validateToken = (req, res, next) => {
 
   const token = authorizationHeader && authorizationHeader.split(" ")[1];
 
-  if (!token) return res.status(401).json({ message: "Unauthorized access" });
+  if (!token) return res.status(401).json({ message: "Unauthorized" });
 
   try {
     const secret = process.env.SECRET;

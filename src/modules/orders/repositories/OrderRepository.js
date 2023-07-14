@@ -24,13 +24,16 @@ module.exports = () => ({
       SELECT
       orders._id,
       orders.customer_id,
-      customers.name as customer_name,
-      customers.city,
       orders.total,
       orders.total_with_discount,
       orders.cashback,
       orders.created_at,
-      orders.updated_at
+      orders.updated_at,
+
+      customers.name,
+      customers.cpf,
+      customers.city,
+      customers.phone
 
       FROM orders
       INNER JOIN customers
@@ -39,20 +42,55 @@ module.exports = () => ({
       ORDER BY created_at DESC
     `
     );
-    return findAllOrdersResult.rows;
+
+    const orders = findAllOrdersResult.rows.map(
+      ({
+        _id,
+        total,
+        total_with_discount,
+        cashback,
+        created_at,
+        updated_at,
+        customer_id,
+        name,
+        cpf,
+        city,
+        phone,
+      }) => {
+        const user = { _id: customer_id, name, cpf, city, phone };
+
+        return {
+          _id,
+          total,
+          total_with_discount,
+          cashback,
+          user,
+          created_at,
+          updated_at,
+        };
+      }
+    );
+
+    return orders;
   },
 
   findOne: async (id) => {
     const findOrderResult = await pool.query(
       `
       SELECT
-      orders._id as order_id,
+      orders._id,
       orders.customer_id,
-      customers.name as customer_name,
+      orders.total,
       orders.total_with_discount,
       orders.cashback,
       orders.created_at,
-      orders.updated_at
+      orders.updated_at,
+
+      customers.name,
+      customers.cpf,
+      customers.city,
+      customers.phone
+
       FROM orders
       INNER JOIN customers
       ON orders.customer_id = customers._id
@@ -60,7 +98,32 @@ module.exports = () => ({
     `,
       [id]
     );
-    return findOrderResult.rows[0];
+
+    const {
+      _id,
+      total,
+      total_with_discount,
+      cashback,
+      created_at,
+      updated_at,
+      customer_id,
+      name,
+      cpf,
+      city,
+      phone,
+    } = findOrderResult.rows[0];
+
+    const user = { _id: customer_id, name, cpf, city, phone };
+
+    return {
+      _id,
+      total,
+      total_with_discount,
+      cashback,
+      user,
+      created_at,
+      updated_at,
+    };
   },
 
   update: async (id, data) => {},
