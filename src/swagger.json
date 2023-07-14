@@ -26,9 +26,7 @@
   "paths": {
     "/customers": {
       "post": {
-        "tags": [
-          "customers"
-        ],
+        "tags": ["customers"],
         "summary": "Create customer",
         "description": "Create customer",
         "operationId": "create",
@@ -122,7 +120,7 @@
             }
           },
           "401": {
-            "description": "Unauthorized access"
+            "description": "Unauthorized"
           },
           "422": {
             "description": "All fields are required | Name must be more than 5 characters | Field name with invalid type | CPF needs to be in this format: 999.999.999-99"
@@ -130,9 +128,7 @@
         }
       },
       "get": {
-        "tags": [
-          "customers"
-        ],
+        "tags": ["customers"],
         "summary": "Find all customers",
         "description": "Find all customers",
         "operationId": "findAll",
@@ -186,9 +182,7 @@
     },
     "/customers/{id}": {
       "get": {
-        "tags": [
-          "customers"
-        ],
+        "tags": ["customers"],
         "summary": "Find customer by id",
         "description": "Find customer by id",
         "operationId": "findOne",
@@ -252,9 +246,7 @@
         }
       },
       "put": {
-        "tags": [
-          "customers"
-        ],
+        "tags": ["customers"],
         "summary": "Update customer",
         "description": "Update customer",
         "operationId": "update",
@@ -341,7 +333,7 @@
             }
           },
           "401": {
-            "description": "Unauthorized access"
+            "description": "Unauthorized"
           },
           "404": {
             "description": "Customer not found"
@@ -352,9 +344,7 @@
         }
       },
       "delete": {
-        "tags": [
-          "customers"
-        ],
+        "tags": ["customers"],
         "summary": "Delete customer",
         "description": "Delete customer",
         "operationId": "delete",
@@ -376,7 +366,7 @@
             "description": "Success"
           },
           "401": {
-            "description": "Unauthorized access"
+            "description": "Unauthorized"
           },
           "422": {
             "description": "Invalid id"
@@ -389,13 +379,11 @@
     },
     "/orders": {
       "post": {
-        "tags": [
-          "orders"
-        ],
+        "tags": ["orders"],
         "summary": "Create order",
         "description": "Create order",
         "operationId": "create",
-        "security": [{ "bearerAuth": []}],
+        "security": [{ "bearerAuth": [] }],
         "requestBody": {
           "content": {
             "application/json": {
@@ -466,7 +454,7 @@
             }
           },
           "401": {
-            "description": "Unauthorized access"
+            "description": "Unauthorized"
           },
           "404": {
             "description": "Customer not found"
@@ -477,9 +465,7 @@
         }
       },
       "get": {
-        "tags": [
-          "orders"
-        ],
+        "tags": ["orders"],
         "summary": "Find all orders",
         "description": "Find all orders",
         "operationId": "findAll",
@@ -497,11 +483,6 @@
                         "type": "string",
                         "example": "3501159d-4db1-449b-9778-ffe133098dcc"
                       },
-                      "customer_id": {
-                        "description": "Customer Id",
-                        "type": "string",
-                        "example": "79732fd9-ff71-44d8-b3e8-ffda377b451b"
-                      },
                       "total": {
                         "description": "Order total",
                         "type": "number",
@@ -517,15 +498,35 @@
                         "type": "number",
                         "example": 15
                       },
-                      "customer_name": {
-                        "description": "Customer name",
-                        "type": "string",
-                        "example": "JOAO SILVA"
-                      },
-                      "city": {
-                        "description": "Customer city",
-                        "type": "string",
-                        "example": "PORTO ALEGRE"
+                      "user": {
+                        "type": "object",
+                        "properties": {
+                          "_id": {
+                            "description": "Customer Id",
+                            "type": "string",
+                            "example": "79732fd9-ff71-44d8-b3e8-ffda377b451b"
+                          },
+                          "name": {
+                            "description": "Customer name",
+                            "type": "string",
+                            "example": "Joao silva"
+                          },
+                          "cpf": {
+                            "description": "Customer cpf",
+                            "type": "string",
+                            "example": "999.999.999-99"
+                          },
+                          "city": {
+                            "description": "Customer city",
+                            "type": "string",
+                            "example": "Porto Alegre"
+                          },
+                          "phone": {
+                            "description": "Customer phone",
+                            "type": "string",
+                            "example": "(99)99999-9999"
+                          }
+                        }
                       },
                       "created_at": {
                         "description": "Customer creation date",
@@ -548,9 +549,7 @@
     },
     "/orders/{id}": {
       "get": {
-        "tags": [
-          "orders"
-        ],
+        "tags": ["orders"],
         "summary": "Find order by id",
         "description": "Find order by id",
         "operationId": "findOne",
@@ -575,11 +574,6 @@
                       "type": "string",
                       "example": "3501159d-4db1-449b-9778-ffe133098dcc"
                     },
-                    "customer_id": {
-                      "description": "Customer Id",
-                      "type": "string",
-                      "example": "79732fd9-ff71-44d8-b3e8-ffda377b451b"
-                    },
                     "total": {
                       "description": "Order total",
                       "type": "number",
@@ -595,15 +589,35 @@
                       "type": "number",
                       "example": 15
                     },
-                    "customer_name": {
-                      "description": "Customer name",
-                      "type": "string",
-                      "example": "JOAO SILVA"
-                    },
-                    "city": {
-                      "description": "Customer city",
-                      "type": "string",
-                      "example": "PORTO ALEGRE"
+                    "user": {
+                      "type": "object",
+                      "properties": {
+                        "_id": {
+                          "description": "Customer Id",
+                          "type": "string",
+                          "example": "79732fd9-ff71-44d8-b3e8-ffda377b451b"
+                        },
+                        "name": {
+                          "description": "Customer name",
+                          "type": "string",
+                          "example": "Joao silva"
+                        },
+                        "cpf": {
+                          "description": "Customer cpf",
+                          "type": "string",
+                          "example": "999.999.999-99"
+                        },
+                        "city": {
+                          "description": "Customer city",
+                          "type": "string",
+                          "example": "Porto Alegre"
+                        },
+                        "phone": {
+                          "description": "Customer phone",
+                          "type": "string",
+                          "example": "(99)99999-9999"
+                        }
+                      }
                     },
                     "created_at": {
                       "description": "Customer creation date",
@@ -635,7 +649,7 @@
         "summary": "Create user",
         "description": "Create user",
         "operationId": "create",
-        "security": [{ "bearerAuth": []}],
+        "security": [{ "bearerAuth": [] }],
         "requestBody": {
           "content": {
             "application/json": {
@@ -711,7 +725,7 @@
             }
           },
           "401": {
-            "description": "Unauthorized access"
+            "description": "Unauthorized"
           },
           "422": {
             "description": "All fields are required | Email already exists | Passwords do not match"
