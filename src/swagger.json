@@ -11,27 +11,25 @@
   },
   "servers": [
     {
+      "url": "http://localhost:3000",
+      "description": "Localhost"
+    },
+    {
       "url": "https://cashback-api-postgres-dev-ee44243735bc.herokuapp.com",
       "description": "Develop"
     },
     {
       "url": "https://cashback-api-postgres-prod-653317d3b440.herokuapp.com",
       "description": "Production"
-    },
-    {
-      "url": "http://localhost:3000",
-      "description": "Localhost"
     }
   ],
   "paths": {
     "/customers": {
       "post": {
-        "tags": [
-          "customers"
-        ],
+        "tags": ["customers"],
         "summary": "Create customer",
         "description": "Create customer",
-        "operationId": "createCustomer",
+        "operationId": "create",
         "security": [
           {
             "bearerAuth": []
@@ -122,7 +120,7 @@
             }
           },
           "401": {
-            "description": "Unauthorized access"
+            "description": "Unauthorized"
           },
           "422": {
             "description": "All fields are required | Name must be more than 5 characters | Field name with invalid type | CPF needs to be in this format: 999.999.999-99"
@@ -130,12 +128,10 @@
         }
       },
       "get": {
-        "tags": [
-          "customers"
-        ],
+        "tags": ["customers"],
         "summary": "Find all customers",
         "description": "Find all customers",
-        "operationId": "findAllCustomers",
+        "operationId": "findAll",
         "responses": {
           "200": {
             "description": "Ok",
@@ -186,12 +182,10 @@
     },
     "/customers/{id}": {
       "get": {
-        "tags": [
-          "customers"
-        ],
+        "tags": ["customers"],
         "summary": "Find customer by id",
         "description": "Find customer by id",
-        "operationId": "findCustomerById",
+        "operationId": "findOne",
         "parameters": [
           {
             "name": "id",
@@ -252,12 +246,10 @@
         }
       },
       "put": {
-        "tags": [
-          "customers"
-        ],
+        "tags": ["customers"],
         "summary": "Update customer",
         "description": "Update customer",
-        "operationId": "updateCustomer",
+        "operationId": "update",
         "security": [
           {
             "bearerAuth": []
@@ -341,7 +333,7 @@
             }
           },
           "401": {
-            "description": "Unauthorized access"
+            "description": "Unauthorized"
           },
           "404": {
             "description": "Customer not found"
@@ -350,17 +342,48 @@
             "description": "Invalid id  | All fields are required | Name must be more than 5 characters | Field name with invalid type | CPF needs to be in this format: 999.999.999-99"
           }
         }
+      },
+      "delete": {
+        "tags": ["customers"],
+        "summary": "Delete customer",
+        "description": "Delete customer",
+        "operationId": "delete",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Customer id",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "422": {
+            "description": "Invalid id"
+          },
+          "404": {
+            "description": "Customer not found"
+          }
+        }
       }
     },
     "/orders": {
       "post": {
-        "tags": [
-          "orders"
-        ],
+        "tags": ["orders"],
         "summary": "Create order",
         "description": "Create order",
-        "operationId": "createOrder",
-        "security": [{ "bearerAuth": []}],
+        "operationId": "create",
+        "security": [{ "bearerAuth": [] }],
         "requestBody": {
           "content": {
             "application/json": {
@@ -431,7 +454,7 @@
             }
           },
           "401": {
-            "description": "Unauthorized access"
+            "description": "Unauthorized"
           },
           "404": {
             "description": "Customer not found"
@@ -442,12 +465,10 @@
         }
       },
       "get": {
-        "tags": [
-          "orders"
-        ],
+        "tags": ["orders"],
         "summary": "Find all orders",
         "description": "Find all orders",
-        "operationId": "findAllOrders",
+        "operationId": "findAll",
         "responses": {
           "200": {
             "description": "Success",
@@ -461,11 +482,6 @@
                         "description": "Order Id",
                         "type": "string",
                         "example": "3501159d-4db1-449b-9778-ffe133098dcc"
-                      },
-                      "customer_id": {
-                        "description": "Customer Id",
-                        "type": "string",
-                        "example": "79732fd9-ff71-44d8-b3e8-ffda377b451b"
                       },
                       "total": {
                         "description": "Order total",
@@ -482,15 +498,35 @@
                         "type": "number",
                         "example": 15
                       },
-                      "customer_name": {
-                        "description": "Customer name",
-                        "type": "string",
-                        "example": "JOAO SILVA"
-                      },
-                      "city": {
-                        "description": "Customer city",
-                        "type": "string",
-                        "example": "PORTO ALEGRE"
+                      "user": {
+                        "type": "object",
+                        "properties": {
+                          "_id": {
+                            "description": "Customer Id",
+                            "type": "string",
+                            "example": "79732fd9-ff71-44d8-b3e8-ffda377b451b"
+                          },
+                          "name": {
+                            "description": "Customer name",
+                            "type": "string",
+                            "example": "Joao silva"
+                          },
+                          "cpf": {
+                            "description": "Customer cpf",
+                            "type": "string",
+                            "example": "999.999.999-99"
+                          },
+                          "city": {
+                            "description": "Customer city",
+                            "type": "string",
+                            "example": "Porto Alegre"
+                          },
+                          "phone": {
+                            "description": "Customer phone",
+                            "type": "string",
+                            "example": "(99)99999-9999"
+                          }
+                        }
                       },
                       "created_at": {
                         "description": "Customer creation date",
@@ -513,12 +549,10 @@
     },
     "/orders/{id}": {
       "get": {
-        "tags": [
-          "orders"
-        ],
+        "tags": ["orders"],
         "summary": "Find order by id",
         "description": "Find order by id",
-        "operationId": "findOrderById",
+        "operationId": "findOne",
         "parameters": [
           {
             "name": "id",
@@ -540,11 +574,6 @@
                       "type": "string",
                       "example": "3501159d-4db1-449b-9778-ffe133098dcc"
                     },
-                    "customer_id": {
-                      "description": "Customer Id",
-                      "type": "string",
-                      "example": "79732fd9-ff71-44d8-b3e8-ffda377b451b"
-                    },
                     "total": {
                       "description": "Order total",
                       "type": "number",
@@ -560,15 +589,35 @@
                       "type": "number",
                       "example": 15
                     },
-                    "customer_name": {
-                      "description": "Customer name",
-                      "type": "string",
-                      "example": "JOAO SILVA"
-                    },
-                    "city": {
-                      "description": "Customer city",
-                      "type": "string",
-                      "example": "PORTO ALEGRE"
+                    "user": {
+                      "type": "object",
+                      "properties": {
+                        "_id": {
+                          "description": "Customer Id",
+                          "type": "string",
+                          "example": "79732fd9-ff71-44d8-b3e8-ffda377b451b"
+                        },
+                        "name": {
+                          "description": "Customer name",
+                          "type": "string",
+                          "example": "Joao silva"
+                        },
+                        "cpf": {
+                          "description": "Customer cpf",
+                          "type": "string",
+                          "example": "999.999.999-99"
+                        },
+                        "city": {
+                          "description": "Customer city",
+                          "type": "string",
+                          "example": "Porto Alegre"
+                        },
+                        "phone": {
+                          "description": "Customer phone",
+                          "type": "string",
+                          "example": "(99)99999-9999"
+                        }
+                      }
                     },
                     "created_at": {
                       "description": "Customer creation date",
@@ -599,8 +648,8 @@
         "tags": ["users"],
         "summary": "Create user",
         "description": "Create user",
-        "operationId": "createUser",
-        "security": [{ "bearerAuth": []}],
+        "operationId": "create",
+        "security": [{ "bearerAuth": [] }],
         "requestBody": {
           "content": {
             "application/json": {
@@ -676,7 +725,7 @@
             }
           },
           "401": {
-            "description": "Unauthorized access"
+            "description": "Unauthorized"
           },
           "422": {
             "description": "All fields are required | Email already exists | Passwords do not match"
@@ -689,7 +738,7 @@
         "tags": ["users"],
         "summary": "Find all users",
         "description": "Find all users",
-        "operationId": "findAllUsers",
+        "operationId": "findAll",
         "responses": {
           "200": {
             "description": "Success",
@@ -729,6 +778,62 @@
                 }
               }
             }
+          }
+        }
+      }
+    },
+    "/login": {
+      "post": {
+        "tags": ["auth"],
+        "summary": "Login",
+        "description": "Login",
+        "operationId": "login",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "email": {
+                    "description": "User email",
+                    "type": "string",
+                    "example": "joao@gmail.com"
+                  },
+                  "password": {
+                    "description": "User password",
+                    "type": "string",
+                    "example": "1234"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "description": "Message",
+                      "type": "string",
+                      "example": "Authorized"
+                    },
+                    "token": {
+                      "description": "Token",
+                      "type": "string",
+                      "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.ckfgotr6ImY0OTAxNjliLWM5ODEtNDcxOS04ODAxLTU3MjI1ZGZmMmQ4OSIsImlhdCI6MTY4OTM0ODk5MX0.66kVoAJrlmf__sTWBk9N2_-EizRbT6Ov4_e0EBJfQmA"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Invalid email or password"
           }
         }
       }

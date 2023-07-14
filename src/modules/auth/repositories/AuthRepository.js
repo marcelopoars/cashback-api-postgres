@@ -16,13 +16,13 @@ class AuthRepository {
 
     if (!user)
       throw {
-        status: 404,
-        message: "User not found",
+        status: 422,
+        message: "Invalid email or password",
       };
 
     const isValidPassword = await bcrypt.compare(password, user.password);
 
-    if (!isValidPassword)
+    if (!isValidPassword || !user)
       throw {
         status: 422,
         message: "Invalid email or password",
