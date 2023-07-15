@@ -30,11 +30,26 @@ module.exports = () => ({
     return createdCustomerResult.rows[0];
   },
 
-  findAll: async () => {
+  findAll: async (params) => {
     const customersResult = await pool.query(
       "SELECT * FROM customers WHERE deleted_at is null ORDER BY created_at DESC"
     );
-    return customersResult.rows;
+
+    const { name, city } = params;
+
+    const customersByName = name
+      ? customersResult.rows.filter((customer) =>
+          customer.name.includes(name.toUpperCase().trim())
+        )
+      : customersResult.rows;
+
+    const customers = city
+      ? customersByName.filter((customer) =>
+          customer.city.includes(city.toUpperCase().trim())
+        )
+      : customersByName;
+
+    return customers;
   },
 
   findOne: async (id) => {

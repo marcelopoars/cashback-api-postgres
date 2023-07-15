@@ -10,7 +10,7 @@ module.exports = () => ({
   create: async (req, res) => {
     try {
       const customer = await CreateCustomerBusiness().execute(req.body);
-      
+
       res.status(201).json(customer);
     } catch (error) {
       res.status(error.status || 500).json({
@@ -19,9 +19,10 @@ module.exports = () => ({
     }
   },
 
-  findAll: async (_, res) => {
+  findAll: async (req, res) => {
     try {
-      const customers = await FindAllCustomerBusiness().execute();
+      const params = req.query
+      const customers = await FindAllCustomerBusiness().execute(params);
 
       res.status(200).json(customers);
     } catch (error) {
