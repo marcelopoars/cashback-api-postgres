@@ -11,16 +11,16 @@
   },
   "servers": [
     {
+      "url": "http://localhost:3000",
+      "description": "Localhost"
+    },
+    {
       "url": "https://cashback-api-postgres-dev-ee44243735bc.herokuapp.com",
       "description": "Develop"
     },
     {
       "url": "https://cashback-api-postgres-prod-653317d3b440.herokuapp.com",
       "description": "Production"
-    },
-    {
-      "url": "http://localhost:3000",
-      "description": "Localhost"
     }
   ],
   "paths": {
@@ -132,6 +132,20 @@
         "summary": "Find all customers",
         "description": "Find all customers",
         "operationId": "findAll",
+        "parameters": [
+          {
+            "name": "name",
+            "in": "query",
+            "description": "Customer name",
+            "example": "joao"
+          },
+          {
+            "name": "city",
+            "in": "query",
+            "description": "Customer city",
+            "example": "porto alegre"
+          }
+        ],
         "responses": {
           "200": {
             "description": "Ok",
