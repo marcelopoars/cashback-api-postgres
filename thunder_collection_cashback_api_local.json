@@ -100,7 +100,7 @@
             "params": [],
             "body": {
                 "type": "json",
-                "raw": "{\n  \"name\": \"Joana SIlva\",\n  \"email\": \"joana@gmail.com\",\n  \"password\": \"1234\",\n  \"confirm_password\": \"1234\"\n}",
+                "raw": "{\n  \"name\": \"Joana SIlva\",\n  \"email\": \"joana@gmail.com\",\n  \"password\": \"1234\",\n  \"confirmPassword\": \"1234\"\n}",
                 "form": []
             },
             "tests": []

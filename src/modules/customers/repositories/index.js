@@ -1,3 +1,3 @@
-const CustomerRepository = require("./CustomerRepository");
+const CustomerRepository = require('./CustomerRepository')
 
-module.exports = { CustomerRepository };
+module.exports = { CustomerRepository }

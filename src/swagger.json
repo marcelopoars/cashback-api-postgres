@@ -404,7 +404,7 @@
               "schema": {
                 "type": "object",
                 "properties": {
-                  "customer_id": {
+                  "customerId": {
                     "description": "Customer Id",
                     "type": "string",
                     "example": "79732fd9-ff71-44d8-b3e8-ffda377b451b"
@@ -685,7 +685,7 @@
                     "type": "string",
                     "example": "1234"
                   },
-                  "confirm_password": {
+                  "confirmPassword": {
                     "description": "User confirm password",
                     "type": "string",
                     "example": "1234"

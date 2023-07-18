@@ -1,14 +1,13 @@
-const {
-  FindOneCustomerService,
-  DeleteCustomerService,
-} = require("../services");
+const { FindOneCustomerService, DeleteCustomerService } = require('../services')
 
 module.exports = () => ({
   execute: async (id) => {
-    const customer = await FindOneCustomerService().execute(id);
+    const customer = await FindOneCustomerService().execute(id)
 
-    if (!customer) throw { status: 404, message: "Customer not found" };
+    const error = { status: 404, message: 'Customer not found' }
 
-    return await DeleteCustomerService().execute(id);
+    if (!customer) throw error
+
+    return await DeleteCustomerService().execute(id)
   },
-});
+})

@@ -1,7 +1,7 @@
-const { UserRepository } = require("../repositories");
+const { UserRepository } = require('../repositories')
 
 module.exports = () => ({
   execute: async (data) => {
-    return await UserRepository().create(data);
+    return await UserRepository().create(data)
   },
-});
+})

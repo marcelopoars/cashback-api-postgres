@@ -1,9 +1,9 @@
-const { AuthRepository } = require("../repositories");
+const { AuthRepository } = require('../repositories')
 
-const authRepository = new AuthRepository();
+const authRepository = new AuthRepository()
 
 module.exports = () => ({
   execute: (data) => {
-    return authRepository.create(data);
+    return authRepository.create(data)
   },
-});
+})

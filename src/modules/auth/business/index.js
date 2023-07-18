@@ -1,3 +1,3 @@
-const CreateAuthBusiness = require("./CreateAuthBusiness");
+const CreateAuthBusiness = require('./CreateAuthBusiness')
 
-module.exports = { CreateAuthBusiness };
+module.exports = { CreateAuthBusiness }

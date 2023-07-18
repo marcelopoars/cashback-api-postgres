@@ -1,3 +1,3 @@
-const CreateAuthService = require("./CreateAuthService");
+const CreateAuthService = require('./CreateAuthService')
 
-module.exports = { CreateAuthService };
+module.exports = { CreateAuthService }
