@@ -18,7 +18,7 @@ module.exports = () => ({
     return createCustomerResult.rows[0]
   },
 
-  findAll: async () => {
+  findAll: async (params) => {
     const findAllOrdersResult = await pool.query(
       `
       SELECT
@@ -43,7 +43,23 @@ module.exports = () => ({
     `,
     )
 
-    const orders = findAllOrdersResult.rows.map(
+    const { customer_name: customerName, customer_city: customerCity } = params
+
+    // Filter by customer name
+    const ordersByCustomerName = customerName
+      ? findAllOrdersResult.rows.filter((order) =>
+          order.name.includes(customerName.toUpperCase().trim()),
+        )
+      : findAllOrdersResult.rows
+
+    // Filter by customer city
+    const ordersByCustomerCity = customerCity
+      ? ordersByCustomerName.filter((order) =>
+          order.city.includes(customerCity.toUpperCase().trim()),
+        )
+      : ordersByCustomerName
+
+    const orders = ordersByCustomerCity.map(
       ({
         _id,
         total,

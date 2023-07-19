@@ -1,7 +1,7 @@
 const { FindAllOrderService } = require('../services')
 
 module.exports = () => ({
-  execute: async () => {
-    return await FindAllOrderService().execute()
+  execute: async (params) => {
+    return await FindAllOrderService().execute(params)
   },
 })

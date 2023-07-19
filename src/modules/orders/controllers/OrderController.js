@@ -17,9 +17,10 @@ module.exports = () => ({
     }
   },
 
-  findAll: async (_, res) => {
+  findAll: async (req, res) => {
     try {
-      const orders = await FindAllOrderBusiness().execute()
+      const params = req.query
+      const orders = await FindAllOrderBusiness().execute(params)
       res.status(200).json(orders)
     } catch (error) {
       res.status(error.status || 500).json({
