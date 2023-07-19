@@ -1,5 +1,5 @@
 function formatString(string) {
-  return string?.toUpperCase().trim();
+  return string?.toUpperCase().trim()
 }
 
-module.exports = formatString;
+module.exports = formatString

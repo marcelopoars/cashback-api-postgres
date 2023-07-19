@@ -1,3 +1,3 @@
-const OrderController = require('./OrderController');
+const OrderController = require('./OrderController')
 
-module.exports = { OrderController };
+module.exports = { OrderController }

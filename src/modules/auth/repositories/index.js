@@ -1,3 +1,3 @@
-const AuthRepository = require("./AuthRepository");
+const AuthRepository = require('./AuthRepository')
 
-module.exports = { AuthRepository };
+module.exports = { AuthRepository }

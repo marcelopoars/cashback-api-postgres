@@ -1,24 +1,24 @@
-const { randomUUID } = require("node:crypto");
+const { randomUUID } = require('node:crypto')
 
-const { pool } = require("../../commons/repositories/databaseUrl");
+const { pool } = require('../../commons/repositories/databaseUrl')
 
 module.exports = () => ({
   create: async (data) => {
-    const { customer_id, total, total_with_discount, cashback } = data;
+    const { customerId, total, totalWithDiscount, cashback } = data
 
-    const _id = randomUUID();
+    const _id = randomUUID()
 
     const createCustomerResult = await pool.query(
       `INSERT INTO
         orders (_id, customer_id, total, total_with_discount, cashback)
         VALUES ($1, $2, $3, $4, $5) RETURNING *`,
-      [_id, customer_id, total, total_with_discount, cashback]
-    );
+      [_id, customerId, total, totalWithDiscount, cashback],
+    )
 
-    return createCustomerResult.rows[0];
+    return createCustomerResult.rows[0]
   },
 
-  findAll: async () => {
+  findAll: async (params) => {
     const findAllOrdersResult = await pool.query(
       `
       SELECT
@@ -40,38 +40,52 @@ module.exports = () => ({
       ON orders.customer_id = customers._id
       WHERE orders.deleted_at is null
       ORDER BY created_at DESC
-    `
-    );
+    `,
+    )
 
-    const orders = findAllOrdersResult.rows.map(
+    const { customer_name: customerName, customer_city: customerCity } = params
+
+    // Filter by customer name
+    const ordersByCustomerName = customerName
+      ? findAllOrdersResult.rows.filter((order) =>
+          order.name.includes(customerName.toUpperCase().trim()),
+        )
+      : findAllOrdersResult.rows
+
+    // Filter by customer city
+    const ordersByCustomerCity = customerCity
+      ? ordersByCustomerName.filter((order) =>
+          order.city.includes(customerCity.toUpperCase().trim()),
+        )
+      : ordersByCustomerName
+
+    const orders = ordersByCustomerCity.map(
       ({
         _id,
         total,
-        total_with_discount,
+        total_with_discount: totalWithDiscount,
         cashback,
-        created_at,
-        updated_at,
-        customer_id,
+        created_at: createdAt,
+        updated_at: updatedAt,
+        customer_id: customerId,
         name,
         cpf,
         city,
         phone,
       }) => {
-        const user = { _id: customer_id, name, cpf, city, phone };
-
         return {
           _id,
           total,
-          total_with_discount,
+          totalWithDiscount,
           cashback,
-          user,
-          created_at,
-          updated_at,
-        };
-      }
-    );
+          customer: { _id: customerId, name, cpf, city, phone },
+          createdAt,
+          updatedAt,
+        }
+      },
+    )
 
-    return orders;
+    return orders
   },
 
   findOne: async (id) => {
@@ -96,37 +110,39 @@ module.exports = () => ({
       ON orders.customer_id = customers._id
       WHERE orders._id = ($1) AND orders.deleted_at is null
     `,
-      [id]
-    );
+      [id],
+    )
 
-    const {
-      _id,
-      total,
-      total_with_discount,
-      cashback,
-      created_at,
-      updated_at,
-      customer_id,
-      name,
-      cpf,
-      city,
-      phone,
-    } = findOrderResult.rows[0];
+    const order = findOrderResult.rows.map(
+      ({
+        _id,
+        total,
+        total_with_discount: totalWithDiscount,
+        cashback,
+        created_at: createdAt,
+        updated_at: updatedAt,
+        customer_id: customerId,
+        name,
+        cpf,
+        city,
+        phone,
+      }) => {
+        return {
+          _id,
+          total,
+          totalWithDiscount,
+          cashback,
+          customer: { _id: customerId, name, cpf, city, phone },
+          createdAt,
+          updatedAt,
+        }
+      },
+    )
 
-    const user = { _id: customer_id, name, cpf, city, phone };
-
-    return {
-      _id,
-      total,
-      total_with_discount,
-      cashback,
-      user,
-      created_at,
-      updated_at,
-    };
+    return order[0]
   },
 
-  update: async (id, data) => {},
+  update: async () => {},
 
   delete: async (id) => {
     await pool.query(
@@ -135,7 +151,7 @@ module.exports = () => ({
         SET deleted_at = ($1)
         WHERE _id = ($2)
       `,
-      [new Date(), id]
-    );
+      [new Date(), id],
+    )
   },
-});
+})

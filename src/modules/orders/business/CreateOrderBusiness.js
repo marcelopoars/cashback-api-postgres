@@ -1,33 +1,34 @@
 const {
   FindOneCustomerService,
   UpdateCustomerService,
-} = require("../../customers/services");
-const { CreateOrderService } = require("../services");
-const { validateOnCreateOrder } = require("../validations");
-const { calculateAmountPerOrder } = require("../utils");
+} = require('../../customers/services')
+const { CreateOrderService } = require('../services')
+const { validateOnCreateOrder } = require('../validations')
+const { calculateAmountPerOrder } = require('../utils')
 
 module.exports = () => ({
-  execute: async ({ customer_id, total }) => {
-    const customer = await FindOneCustomerService().execute(customer_id);
+  execute: async ({ customerId, total }) => {
+    const customer = await FindOneCustomerService().execute(customerId)
 
-    if (!customer) throw { status: 404, message: "Customer not found" };
+    // eslint-disable-next-line no-throw-literal
+    if (!customer) throw { status: 404, message: 'Customer not found' }
 
-    validateOnCreateOrder(customer_id, total, customer.cashback);
+    validateOnCreateOrder(customerId, total, customer.cashback)
 
-    const total_with_discount = calculateAmountPerOrder(total, customer.cashback);
+    const totalWithDiscount = calculateAmountPerOrder(total, customer.cashback)
 
-    const cashback = Number((total_with_discount * (15 / 100)).toFixed(2));
+    const cashback = Number((totalWithDiscount * (15 / 100)).toFixed(2))
 
-    await UpdateCustomerService().execute(customer_id, {
+    await UpdateCustomerService().execute(customerId, {
       ...customer,
-      cashback: cashback,
-    });
+      cashback,
+    })
 
     return await CreateOrderService().execute({
-      customer_id,
+      customerId,
       total,
-      total_with_discount,
+      totalWithDiscount,
       cashback,
-    });
+    })
   },
-});
+})

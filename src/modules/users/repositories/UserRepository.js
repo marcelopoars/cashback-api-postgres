@@ -1,37 +1,39 @@
-const bcrypt = require("bcrypt");
-const { randomUUID } = require("node:crypto");
+const bcrypt = require('bcrypt')
+const { randomUUID } = require('node:crypto')
 
-const { pool } = require("../../commons/repositories/databaseUrl");
+const { pool } = require('../../commons/repositories/databaseUrl')
 
 module.exports = () => ({
   create: async (data) => {
-    const { name, email, password } = data;
+    const { name, email, password } = data
 
     const emailAlreadyExistsResult = await pool.query(
-      "SELECT * FROM users WHERE email = ($1)",
-      [email]
-    );
+      'SELECT * FROM users WHERE email = ($1)',
+      [email],
+    )
 
-    const emailAlreadyExists = emailAlreadyExistsResult.rows[0];
+    const emailAlreadyExists = emailAlreadyExistsResult.rows[0]
 
-    if (emailAlreadyExists)
+    if (emailAlreadyExists) {
+      // eslint-disable-next-line no-throw-literal
       throw {
         status: 422,
-        message: "Email already exists",
-      };
+        message: 'Email already exists',
+      }
+    }
 
-    const _id = randomUUID();
-    const salt = await bcrypt.genSalt(2);
-    const passwordHash = await bcrypt.hash(password, salt);
+    const _id = randomUUID()
+    const salt = await bcrypt.genSalt(2)
+    const passwordHash = await bcrypt.hash(password, salt)
 
     const createdUserResult = await pool.query(
       `INSERT INTO
         users (_id, name, email, password)
         VALUES ($1, $2, $3, $4) RETURNING *`,
-      [_id, name, email, passwordHash]
-    );
+      [_id, name, email, passwordHash],
+    )
 
-    return createdUserResult.rows[0];
+    return createdUserResult.rows[0]
   },
 
   findAll: async () => {
@@ -41,17 +43,17 @@ module.exports = () => ({
       FROM users
       WHERE deleted_at is null
       ORDER BY created_at DESC
-      `
-    );
-    return usersResult.rows;
+      `,
+    )
+    return usersResult.rows
   },
 
   findOne: async (id) => {
     const userByIdResult = await pool.query(
-      "SELECT * FROM users WHERE _id = ($1) AND deleted_at is null",
-      [id]
-    );
-    return userByIdResult.rows[0];
+      'SELECT * FROM users WHERE _id = ($1) AND deleted_at is null',
+      [id],
+    )
+    return userByIdResult.rows[0]
   },
 
   update: () => {},
@@ -63,7 +65,7 @@ module.exports = () => ({
       SET deleted_at = ($1)
       WHERE _id = ($2)
     `,
-      [new Date(), id]
-    );
+      [new Date(), id],
+    )
   },
-});
+})

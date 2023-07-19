@@ -17,6 +17,6 @@ const metaData = {
     type: 'git',
     url: 'https://github.com/marcelopoars/cashback-api-in-memory',
   },
-};
+}
 
-module.exports = metaData;
+module.exports = metaData

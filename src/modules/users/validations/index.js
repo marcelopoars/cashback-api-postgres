@@ -1,3 +1,3 @@
-const validateOnCreateUser = require("./validateOnCreateUser");
+const validateOnCreateUser = require('./validateOnCreateUser')
 
-module.exports = { validateOnCreateUser };
+module.exports = { validateOnCreateUser }

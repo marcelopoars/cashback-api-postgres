@@ -1,5 +1,5 @@
-const validateType = require('./validateType');
+const validateType = require('./validateType')
 
 module.exports = {
   validateType,
-};
+}

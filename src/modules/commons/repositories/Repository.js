@@ -10,4 +10,4 @@ class Repository {
   delete() {}
 }
 
-module.exports = Repository;
+module.exports = Repository

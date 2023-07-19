@@ -1,7 +1,7 @@
-const { UserRepository } = require("../repositories");
+const { UserRepository } = require('../repositories')
 
 module.exports = () => ({
   execute: async () => {
-    return await UserRepository().findAll();
+    return await UserRepository().findAll()
   },
-});
+})
