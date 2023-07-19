@@ -1,5 +1,5 @@
-const formatString = require('./formatString');
+const formatString = require('./formatString')
 
 module.exports = {
   formatString,
-};
+}

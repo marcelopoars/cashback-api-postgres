@@ -1,3 +1,3 @@
-const { validateId } = require('./middlewares');
+const { validateId } = require('./middlewares')
 
-module.exports = { validateId };
+module.exports = { validateId }

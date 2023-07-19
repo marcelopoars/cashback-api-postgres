@@ -1,15 +1,18 @@
-function validateOnCreateUser({ name, email, password, confirm_password }) {
-  if (!name || !email || !password || !confirm_password)
+/* eslint-disable no-throw-literal */
+function validateOnCreateUser({ name, email, password, confirmPassword }) {
+  if (!name || !email || !password || !confirmPassword) {
     throw {
       status: 422,
-      message: "All fields are required",
-    };
+      message: 'All fields are required',
+    }
+  }
 
-  if (password !== confirm_password)
+  if (password !== confirmPassword) {
     throw {
       status: 422,
-      message: "Passwords do not match",
-    };
+      message: 'Passwords do not match',
+    }
+  }
 }
 
-module.exports = validateOnCreateUser;
+module.exports = validateOnCreateUser

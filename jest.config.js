@@ -8,7 +8,7 @@ module.exports = {
     '!<rootDir>/src/**/*swagger.json',
     '!<rootDir>/src/**/*middlewares.js',
     '!<rootDir>/src/**/*databaseUrl.js',
-    "!<rootDir>/src/modules/**/*{Controller,Business,Service,Repository}.js"
+    '!<rootDir>/src/modules/**/*{Controller,Business,Service,Repository}.js',
   ],
   coverageDirectory: 'coverage',
   coveragePathIgnorePatterns: [
@@ -30,4 +30,4 @@ module.exports = {
 
   moduleDirectories: ['node_modules'],
   roots: ['<rootDir>/src/'],
-};
+}

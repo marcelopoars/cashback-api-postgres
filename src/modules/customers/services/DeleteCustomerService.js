@@ -1,7 +1,7 @@
-const { CustomerRepository } = require("../repositories");
+const { CustomerRepository } = require('../repositories')
 
 module.exports = () => ({
   execute: async (id) => {
-    return await CustomerRepository().delete(id);
+    return await CustomerRepository().delete(id)
   },
-});
+})

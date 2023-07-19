@@ -1,3 +1,3 @@
-const CustomerController = require('./CustomerController');
+const CustomerController = require('./CustomerController')
 
-module.exports = { CustomerController };
+module.exports = { CustomerController }

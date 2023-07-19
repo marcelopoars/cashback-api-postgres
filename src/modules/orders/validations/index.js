@@ -1,3 +1,3 @@
-const validateOnCreateOrder = require('./validateOnCreateOrder');
+const validateOnCreateOrder = require('./validateOnCreateOrder')
 
-module.exports = { validateOnCreateOrder };
+module.exports = { validateOnCreateOrder }

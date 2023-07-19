@@ -1,7 +1,7 @@
-const { FindAllUserService } = require("../services");
+const { FindAllUserService } = require('../services')
 
 module.exports = () => ({
   execute: async () => {
-    return await FindAllUserService().execute();
+    return await FindAllUserService().execute()
   },
-});
+})

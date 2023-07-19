@@ -1,11 +1,12 @@
-const { FindOneOrderService } = require("../services");
+const { FindOneOrderService } = require('../services')
 
 module.exports = () => ({
   execute: async (id) => {
-    const order = await FindOneOrderService().execute(id);
+    const order = await FindOneOrderService().execute(id)
 
-    if (!order) throw { status: 404, message: "Order not found" };
+    // eslint-disable-next-line no-throw-literal
+    if (!order) throw { status: 404, message: 'Order not found' }
 
-    return order;
+    return order
   },
-});
+})

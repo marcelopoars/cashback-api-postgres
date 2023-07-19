@@ -1,3 +1,3 @@
-const UserRepository = require("./UserRepository");
+const UserRepository = require('./UserRepository')
 
-module.exports = { UserRepository };
+module.exports = { UserRepository }

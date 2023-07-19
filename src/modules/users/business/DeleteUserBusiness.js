@@ -1,11 +1,12 @@
-const { FindOneUserService, DeleteUserService } = require("../services");
+const { FindOneUserService, DeleteUserService } = require('../services')
 
 module.exports = () => ({
   execute: async (id) => {
-    const user = await FindOneUserService().execute(id);
+    const user = await FindOneUserService().execute(id)
 
-    if (!user) throw { status: 404, message: "User not found" };
+    // eslint-disable-next-line no-throw-literal
+    if (!user) throw { status: 404, message: 'User not found' }
 
-    return await DeleteUserService().execute(id);
+    return await DeleteUserService().execute(id)
   },
-});
+})
